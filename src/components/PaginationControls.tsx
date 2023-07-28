@@ -5,11 +5,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from './ui/button';
 
 interface Props {
+  total: number;
   hasNextPage: boolean;
   hasPrevPage: boolean;
 }
 
 export default function PaginationControls({
+  total,
   hasNextPage,
   hasPrevPage,
 }: Props) {
@@ -22,7 +24,6 @@ export default function PaginationControls({
   return (
     <div className="flex gap-2">
       <Button
-        className="bg-blue-500 text-white p-1"
         disabled={!hasPrevPage}
         onClick={() => {
           router.push(`/?page=${Number(page) - 1}&per_page=${per_page}`);
@@ -32,11 +33,10 @@ export default function PaginationControls({
       </Button>
 
       <div>
-        {page} / {Math.ceil(10 / Number(per_page))}
+        {page} / {Math.ceil(total / Number(per_page))}
       </div>
 
       <Button
-        className="bg-blue-500 text-white p-1"
         disabled={!hasNextPage}
         onClick={() => {
           router.push(`/?page=${Number(page) + 1}&per_page=${per_page}`);
