@@ -1,5 +1,6 @@
 import getTrendingMovies from '@/actions/getTrendingMovies';
 import PaginationControls from '@/components/PaginationControls';
+import Image from 'next/image';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -34,12 +35,23 @@ export default async function Home({
         hasPrevPage={start > 0}
       />
 
-      {trendingMovies?.results?.map((movie, index) => (
-        <div key={index}>
-          {movie.title}
-          <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
-        </div>
-      ))}
+      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 w-full max-w-6xl">
+        {trendingMovies?.results?.map((movie, index) => (
+          // TODO: Card Component로 분리
+          <div key={index} className="mx-auto px-2 lg:px-0 overflow-hidden">
+            {/* <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} /> */}
+
+            <Image
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              width={500}
+              height={500}
+              alt="movie poster"
+              className="hover:scale-105 transition rounded-lg"
+            />
+            <p className="mt-2 text-center text-lg font-bold">{movie.title}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
