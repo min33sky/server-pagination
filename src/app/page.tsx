@@ -1,57 +1,27 @@
-import getTrendingMovies from '@/actions/getTrendingMovies';
-import PaginationControlsWithPages from '@/components/PaginationControlsWithPages';
-import Image from 'next/image';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const metadata = {
+  title: '서버 페이지네이션 구현하기',
+  description: '서버 페이지네이션 구현하기',
+};
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: {
-    [key: string]: string | string[] | undefined;
-  };
-}) {
-  // console.log('유행하는 영화들:', trendingMovies);
-
-  const page = searchParams['page'] ?? '1';
-  const perPage = searchParams['perPage'] ?? '20';
-
-  // mocked, skipped and limited in the real app
-  const start = (Number(page) - 1) * Number(perPage); // 0, 20, 40, 60, ...
-  const end = start + Number(perPage); // 20, 40, 60, 80, ...
-
-  const trendingMovies = await getTrendingMovies(Number(page));
-
-  if (!trendingMovies) return <div>로딩중...</div>;
-
-  console.log('trendingMovies: ', trendingMovies);
+export default function Home({}: {}) {
   return (
-    <div className="flex flex-col gap-2 items-center">
-      <PaginationControlsWithPages
-        total={trendingMovies.total_results}
-        perPage={Number(perPage)}
-        hasNextPage={end < trendingMovies.total_results}
-        hasPrevPage={start > 0}
-      />
-
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 w-full max-w-6xl">
-        {trendingMovies?.results?.map((movie, index) => (
-          // TODO: Card Component로 분리
-          <div key={index} className="mx-auto px-2 lg:px-0 overflow-hidden">
-            {/* <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} /> */}
-
-            <Image
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              width={500}
-              height={500}
-              alt="movie poster"
-              className="hover:scale-105 transition rounded-lg"
-            />
-            <p className="mt-2 text-center text-lg font-bold">{movie.title}</p>
-          </div>
-        ))}
-      </div>
+    <div className="flex flex-col h-full items-center justify-center bg-slate-800 text-white gap-8">
+      <h1 className="font-bold text-xl">서버 페이지네이션 구현하기</h1>
+      <Link
+        href="/pagination"
+        className={cn(
+          buttonVariants({
+            variant: 'secondary',
+            className: 'w-48',
+          }),
+        )}
+      >
+        기본 페이지네이션
+      </Link>
     </div>
   );
 }

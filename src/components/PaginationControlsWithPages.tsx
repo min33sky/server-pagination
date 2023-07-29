@@ -27,7 +27,7 @@ export default function PaginationControlsWithPages({
   const page = searchParams.get('page') ?? '1';
 
   const handleClick = (targetPage: number) => {
-    router.push(`/?page=${targetPage}`);
+    router.push(`?page=${targetPage}`);
   };
 
   return (
