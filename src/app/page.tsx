@@ -1,5 +1,5 @@
 import getTrendingMovies from '@/actions/getTrendingMovies';
-import PaginationControls from '@/components/PaginationControls';
+import PaginationControlsWithPages from '@/components/PaginationControlsWithPages';
 import Image from 'next/image';
 
 export const dynamic = 'force-dynamic';
@@ -17,8 +17,6 @@ export default async function Home({
   const page = searchParams['page'] ?? '1';
   const perPage = searchParams['perPage'] ?? '20';
 
-  console.log('페이지 ::::::::::::::: ', page);
-
   // mocked, skipped and limited in the real app
   const start = (Number(page) - 1) * Number(perPage); // 0, 20, 40, 60, ...
   const end = start + Number(perPage); // 20, 40, 60, 80, ...
@@ -27,10 +25,12 @@ export default async function Home({
 
   if (!trendingMovies) return <div>로딩중...</div>;
 
+  console.log('trendingMovies: ', trendingMovies);
   return (
     <div className="flex flex-col gap-2 items-center">
-      <PaginationControls
+      <PaginationControlsWithPages
         total={trendingMovies.total_results}
+        perPage={Number(perPage)}
         hasNextPage={end < trendingMovies.total_results}
         hasPrevPage={start > 0}
       />
