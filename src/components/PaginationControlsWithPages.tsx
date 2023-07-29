@@ -33,7 +33,9 @@ export default function PaginationControlsWithPages({
   return (
     <section className="py-2">
       <div className="flex flex-row gap-2 items-center">
-        <Button onClick={() => handleClick(1)}>맨 앞으로 가기</Button>
+        <Button onClick={() => handleClick(1)} size={'sm'}>
+          맨 앞으로 가기
+        </Button>
 
         <Button
           disabled={!hasPrevPage}
@@ -44,21 +46,19 @@ export default function PaginationControlsWithPages({
           <ArrowLeft />
         </Button>
 
-        {
-          // 10 page link button
-          Array.from({ length: 10 }, (_, i) => {
-            const targetPage = Number(page) + i;
-            return (
-              <Button
-                key={i}
-                disabled={targetPage > TMDB_MAX_PAGE}
-                onClick={() => handleClick(targetPage)}
-              >
-                {targetPage}
-              </Button>
-            );
-          })
-        }
+        {Array.from({ length: 10 }, (_, i) => {
+          const targetPage = Number(page) + i;
+          return (
+            <Button
+              key={i}
+              disabled={targetPage > TMDB_MAX_PAGE}
+              size={'sm'}
+              onClick={() => handleClick(targetPage)}
+            >
+              {targetPage}
+            </Button>
+          );
+        })}
 
         <Button
           disabled={!hasNextPage}
@@ -74,6 +74,7 @@ export default function PaginationControlsWithPages({
             onClick={() =>
               handleClick(Math.min(Math.ceil(total / perPage), TMDB_MAX_PAGE))
             }
+            size={'sm'}
           >
             맨 뒤로 가기
           </Button>

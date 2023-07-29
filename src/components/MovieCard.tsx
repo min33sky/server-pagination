@@ -32,8 +32,8 @@ export default function MovieCard({ movie }: MovieCardProps) {
           className="group-hover:scale-105 transition rounded-lg object-cover"
         />
       </CardContent>
-      <CardFooter className="flex flex-col truncate">
-        <p className="">{movie.original_title}</p>
+      <CardFooter className="flex flex-col">
+        <p className="line-clamp-1">{movie.original_title}</p>
         <p className="font-normal text-sm">
           {new Date(movie.release_date).toLocaleDateString()}
         </p>

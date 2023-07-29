@@ -25,19 +25,19 @@ export default async function PaginationPage({
   if (!trendingMovies) return <div>로딩중...</div>;
 
   return (
-    <div className="flex flex-col gap-2 items-center">
+    <div className="flex flex-col gap-2 items-center pb-10">
+      <div className="mt-8 mb-10 px-4 lg::px-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 w-full max-w-6xl ">
+        {trendingMovies?.results?.map((movie, index) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
+      </div>
+
       <PaginationControlsWithPages
         total={trendingMovies.total_results}
         perPage={Number(perPage)}
         hasNextPage={end < trendingMovies.total_results}
         hasPrevPage={start > 0}
       />
-
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 w-full max-w-6xl mb-10">
-        {trendingMovies?.results?.map((movie, index) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-      </div>
     </div>
   );
 }
