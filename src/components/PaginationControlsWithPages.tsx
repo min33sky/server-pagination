@@ -1,21 +1,22 @@
 import React from 'react';
 import { Button } from './ui/button';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
 interface PaginationControlsWithPagesProps {
-  total?: number;
-  perPage?: number;
-  currentPage: number;
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
+  total?: number; // ? 전체 아이템 수
+  perPage?: number; // ? 한 페이지에 보여줄 아이템 수
+  query?: string; // ? 검색어
+  currentPage: number; // ? 현재 페이지
+  hasNextPage: boolean; // ? 다음 페이지가 있는지
+  hasPrevPage: boolean; // ? 이전 페이지가 있는지
 }
 
 export default function PaginationControlsWithPages({
   total,
   perPage,
+  query,
   currentPage,
   hasNextPage,
   hasPrevPage,
@@ -35,7 +36,17 @@ export default function PaginationControlsWithPages({
           className={cn('hidden', currentPage > 1 && 'inline-flex')}
           asChild
         >
-          <Link href={`?page=1`}>맨 앞</Link>
+          <Link
+            href={{
+              pathname: '/pagination',
+              query: {
+                ...(query ? { query } : {}),
+                page: 1,
+              },
+            }}
+          >
+            맨 앞
+          </Link>
         </Button>
 
         <Button
@@ -45,7 +56,16 @@ export default function PaginationControlsWithPages({
           className={cn('hidden', currentPage > 1 && 'inline-flex')}
           asChild
         >
-          <Link href={`?page=${Math.max(Number(currentPage) - SKIP_PAGE, 1)}`}>
+          {/* ?page=${Math.max(Number(currentPage) - SKIP_PAGE, 1)} */}
+          <Link
+            href={{
+              pathname: '/pagination',
+              query: {
+                ...(query ? { query } : {}),
+                page: Math.max(Number(currentPage) - SKIP_PAGE, 1),
+              },
+            }}
+          >
             <ArrowLeft />
           </Link>
         </Button>
@@ -65,7 +85,17 @@ export default function PaginationControlsWithPages({
               )}
               asChild
             >
-              <Link href={`?page=${targetPage}`}>{targetPage}</Link>
+              <Link
+                href={{
+                  pathname: '/pagination',
+                  query: {
+                    ...(query ? { query } : {}),
+                    page: targetPage,
+                  },
+                }}
+              >
+                {targetPage}
+              </Link>
             </Button>
           );
         })}
@@ -81,7 +111,15 @@ export default function PaginationControlsWithPages({
           )}
           asChild
         >
-          <Link href={`?page=${Number(currentPage) + SKIP_PAGE}`}>
+          <Link
+            href={{
+              pathname: '/pagination',
+              query: {
+                ...(query ? { query } : {}),
+                page: Math.min(Number(currentPage) + SKIP_PAGE, TMDB_MAX_PAGE),
+              },
+            }}
+          >
             <ArrowRight />
           </Link>
         </Button>
@@ -96,10 +134,13 @@ export default function PaginationControlsWithPages({
             asChild
           >
             <Link
-              href={`?page=${Math.min(
-                Math.ceil(total / perPage),
-                TMDB_MAX_PAGE,
-              )}`}
+              href={{
+                pathname: '/pagination',
+                query: {
+                  ...(query ? { query } : {}),
+                  page: Math.min(Math.ceil(total / perPage), TMDB_MAX_PAGE),
+                },
+              }}
             >
               맨 뒤
             </Link>

@@ -21,7 +21,6 @@ export default function RootLayout({
           defaultTheme="system"
           enableColorScheme
         >
-          <Header />
           {children}
         </ThemeProvider>
       </body>
