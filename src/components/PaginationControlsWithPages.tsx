@@ -58,7 +58,7 @@ export default function PaginationControlsWithPages({
               pathname: '/pagination',
               query: {
                 ...(query ? { query } : {}),
-                page: Math.max(Number(currentPage) - DISPLAY_PAGES, 1),
+                page: Math.max(currentPage - 1, 1),
               },
             }}
           >
@@ -94,14 +94,21 @@ export default function PaginationControlsWithPages({
 
           // if (targetPage > lastPage) return null;
 
+          // const startPage =
+          //   currentPage - Math.floor((currentPage - 1) / DISPLAY_PAGES) <
+          //   DISPLAY_PAGES
+          //     ? 1
+          //     : currentPage - Math.floor((currentPage - 1) / DISPLAY_PAGES);
+
           const startPage =
-            currentPage - Math.floor((currentPage - 1) / DISPLAY_PAGES) <=
-            DISPLAY_PAGES
+            currentPage - Math.floor(displayPageLength / 2) < 1
               ? 1
-              : currentPage - Math.floor((currentPage - 1) / DISPLAY_PAGES);
+              : currentPage - Math.floor(displayPageLength / 2);
 
           console.log('현제 페이지: ', currentPage);
           console.log('스타트 페이지: ', startPage);
+
+          if (startPage + i > lastPage) return null;
 
           return (
             <Button
@@ -168,10 +175,7 @@ export default function PaginationControlsWithPages({
               pathname: '/pagination',
               query: {
                 ...(query ? { query } : {}),
-                page: Math.min(
-                  Number(currentPage) + DISPLAY_PAGES,
-                  TMDB_MAX_PAGE,
-                ),
+                page: Math.min(currentPage + 1, lastPage),
               },
             }}
           >
