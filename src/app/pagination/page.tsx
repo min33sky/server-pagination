@@ -14,6 +14,8 @@ export default async function PaginationPage({
     [key: string]: string | string[] | undefined;
   };
 }) {
+  const TMDB_MAX_PAGE = 500; // ? TMDB API의 최대 페이지 수는 500이다.
+
   const page =
     searchParams['page'] === undefined ? '1' : String(searchParams['page']);
 
@@ -41,6 +43,11 @@ export default async function PaginationPage({
 
   if (!movieList) return <div>찾는 영화가 없습니다.....</div>;
 
+  const totalResults = Math.min(
+    movieList.total_results,
+    TMDB_MAX_PAGE * Number(perPage),
+  );
+
   return (
     <>
       <Header keyword={keyword} />
@@ -53,7 +60,7 @@ export default async function PaginationPage({
         </div>
 
         <PaginationControlsWithPages
-          total={movieList.total_results}
+          total={totalResults}
           perPage={Number(perPage)}
           currentPage={Number(page)}
           query={keyword}

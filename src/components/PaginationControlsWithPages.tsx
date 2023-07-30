@@ -26,7 +26,14 @@ export default function PaginationControlsWithPages({
    */
 
   const TMDB_MAX_PAGE = 500; // ? TMDB API의 최대 페이지 수는 500이다.
-  const SKIP_PAGE = 5; // ? 페이지 버튼을 10개씩 스킵한다.
+  const SKIP_PAGE = 5; // ? 페이지 버튼을 5개씩 스킵한다.
+
+  console.log('total: ', total);
+  console.log('perPage: ', perPage);
+
+  const displayPageLength = Math.min(Math.ceil(total! / perPage!), SKIP_PAGE);
+
+  console.log('displayPageLength: ', displayPageLength);
 
   return (
     <section className="py-2">
@@ -72,10 +79,11 @@ export default function PaginationControlsWithPages({
           </Link>
         </Button>
 
-        {Array.from({ length: SKIP_PAGE }, (_, i) => {
-          const targetPage = Number(currentPage) + i;
+        {Array.from({ length: displayPageLength }, (_, i) => {
+          // const targetPage = Number(currentPage) + i;
+          const targetPage = currentPage - (currentPage % SKIP_PAGE) + i + 1;
 
-          if (targetPage > TMDB_MAX_PAGE) return null;
+          if (targetPage > displayPageLength) return null;
 
           return (
             <Button
