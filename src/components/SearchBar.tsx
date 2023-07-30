@@ -40,7 +40,7 @@ export default function SearchBar({ keyword }: SearchBarProps) {
       <SearchIcon className="absolute h-[1.2rem] w-[1.2rem] text-gray-400 left-3 top-1/2 transform -translate-y-1/2" />
       <Input
         className="pl-10"
-        placeholder='Search "Avengers"'
+        placeholder='검색  "미션 임파서블"'
         value={text}
         onChange={(e) => {
           setText(e.target.value);

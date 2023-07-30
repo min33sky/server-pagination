@@ -34,7 +34,7 @@ export default function PaginationControlsWithPages({
         <Button
           disabled={!hasPrevPage}
           variant={'ghost'}
-          size={'icon'}
+          size={'sm'}
           className={cn('hidden', currentPage > 1 && 'inline-flex')}
           asChild
         >
@@ -48,12 +48,14 @@ export default function PaginationControlsWithPages({
               },
             }}
           >
-            <ArrowLeft />
+            <ArrowLeft className="w-5 h-5" />
+            이전
           </Link>
         </Button>
 
         <Button
           size={'sm'}
+          variant={'ghost'}
           className={cn('hidden', currentPage > 1 && 'inline-flex')}
           asChild
         >
@@ -79,10 +81,9 @@ export default function PaginationControlsWithPages({
             <Button
               key={i}
               disabled={targetPage > TMDB_MAX_PAGE}
+              variant={'ghost'}
               size={'sm'}
-              className={cn(
-                currentPage === targetPage && 'bg-muted-foreground',
-              )}
+              className={cn(currentPage === targetPage && 'text-rose-500')}
               asChild
             >
               <Link
@@ -103,6 +104,7 @@ export default function PaginationControlsWithPages({
         {total && perPage && (
           <Button
             size={'sm'}
+            variant={'ghost'}
             className={cn(
               'hidden',
               currentPage < Math.ceil(total / perPage) && 'inline-flex',
@@ -127,7 +129,7 @@ export default function PaginationControlsWithPages({
           aria-label="next page"
           disabled={!hasNextPage}
           variant={'ghost'}
-          size={'icon'}
+          size={'sm'}
           className={cn(
             currentPage <
               Math.ceil((total || TMDB_MAX_PAGE) / (perPage || 20)) &&
@@ -144,7 +146,8 @@ export default function PaginationControlsWithPages({
               },
             }}
           >
-            <ArrowRight />
+            다음
+            <ArrowRight className="w-5 h-5" />
           </Link>
         </Button>
       </div>
