@@ -1,3 +1,4 @@
+import getMoviesByTitle from '@/actions/getMoviesByTitle';
 import getTrendingMovies from '@/actions/getTrendingMovies';
 import Header from '@/components/Header';
 import MovieCard from '@/components/MovieCard';
@@ -15,15 +16,22 @@ export default async function PaginationPage({
 }) {
   const page = searchParams['page'] ?? '1';
   const perPage = searchParams['perPage'] ?? '20';
-  const keyword = searchParams['query'] ?? '';
+  const keyword = searchParams['query'];
 
   // mocked, skipped and limited in the real app
   const start = (Number(page) - 1) * Number(perPage); // 0, 20, 40, 60, ...
   const end = start + Number(perPage); // 20, 40, 60, 80, ...
 
-  const trendingMovies = await getTrendingMovies(Number(page));
+  let movieList = null;
 
-  if (!trendingMovies) return <div>찾는 영화가 없습니다.....</div>;
+  if (keyword === undefined) {
+    const trendingMovies = await getTrendingMovies(Number(page));
+    movieList = trendingMovies;
+  } else {
+    movieList = await getMoviesByTitle(String(keyword), Number(page));
+  }
+
+  if (!movieList) return <div>찾는 영화가 없습니다.....</div>;
 
   return (
     <>
@@ -31,17 +39,17 @@ export default async function PaginationPage({
 
       <div className="flex flex-col gap-2 items-center pb-10">
         <div className="mt-24 mb-10 px-4 lg:px-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 w-full max-w-6xl ">
-          {trendingMovies?.results?.map((movie, index) => (
+          {movieList?.results?.map((movie, index) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
 
         <PaginationControlsWithPages
-          total={trendingMovies.total_results}
+          total={movieList.total_results}
           perPage={Number(perPage)}
           currentPage={Number(page)}
           query={String(keyword)}
-          hasNextPage={end < trendingMovies.total_results}
+          hasNextPage={end < movieList.total_results}
           hasPrevPage={start > 0}
         />
       </div>

@@ -3,14 +3,14 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
 export const metadata = {
-  title: '서버 페이지네이션 구현하기',
+  title: '서버 페이지네이션 연습',
   description: '서버 페이지네이션 구현하기',
 };
 
 export default function Home({}: {}) {
   return (
     <div className="flex flex-col h-full items-center justify-center gap-8">
-      <h1 className="font-bold text-xl">서버 페이지네이션 구현하기</h1>
+      <h1 className="font-bold text-xl">서버 페이지네이션 구현</h1>
       <Link
         href="/pagination"
         className={cn(
@@ -20,7 +20,7 @@ export default function Home({}: {}) {
           }),
         )}
       >
-        기본 페이지네이션
+        들어가기
       </Link>
     </div>
   );
