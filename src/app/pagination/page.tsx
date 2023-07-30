@@ -14,9 +14,18 @@ export default async function PaginationPage({
     [key: string]: string | string[] | undefined;
   };
 }) {
-  const page = searchParams['page'] ?? '1';
-  const perPage = searchParams['perPage'] ?? '20';
-  const keyword = searchParams['query'];
+  const page =
+    searchParams['page'] === undefined ? '1' : String(searchParams['page']);
+
+  const perPage =
+    searchParams['perPage'] === undefined
+      ? '20'
+      : String(searchParams['perPage']);
+
+  const keyword =
+    searchParams['query'] === undefined
+      ? undefined
+      : String(searchParams['query']);
 
   // mocked, skipped and limited in the real app
   const start = (Number(page) - 1) * Number(perPage); // 0, 20, 40, 60, ...
@@ -25,8 +34,7 @@ export default async function PaginationPage({
   let movieList = null;
 
   if (keyword === undefined) {
-    const trendingMovies = await getTrendingMovies(Number(page));
-    movieList = trendingMovies;
+    movieList = await getTrendingMovies(Number(page));
   } else {
     movieList = await getMoviesByTitle(String(keyword), Number(page));
   }
@@ -35,7 +43,7 @@ export default async function PaginationPage({
 
   return (
     <>
-      <Header keyword={String(keyword)} />
+      <Header keyword={keyword} />
 
       <div className="flex flex-col gap-2 items-center pb-10">
         <div className="mt-24 mb-10 px-4 lg:px-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 w-full max-w-6xl ">
@@ -48,7 +56,7 @@ export default async function PaginationPage({
           total={movieList.total_results}
           perPage={Number(perPage)}
           currentPage={Number(page)}
-          query={String(keyword)}
+          query={keyword}
           hasNextPage={end < movieList.total_results}
           hasPrevPage={start > 0}
         />

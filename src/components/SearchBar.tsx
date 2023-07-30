@@ -13,18 +13,20 @@ interface SearchBarProps {
 export default function SearchBar({ keyword }: SearchBarProps) {
   const router = useRouter();
 
-  const initialRender = useRef(true); //? 새로 고침했을 때 키워드가 초기화되는 것을 막기 위해
+  const initialRender = useRef(true);
 
   const [text, setText] = useState(keyword);
   const [query] = useDebounce(text, 750);
 
-  console.log('쿼리 입력: ', query);
-
   useEffect(() => {
-    // if (initialRender.current) {
-    //   initialRender.current = false;
-    //   return;
-    // }
+    /**
+     * 1. 검색어와 페이지가 포함된 링크로 들어왔을 때 초기화되는 것을 막기 위해
+     * 2. 새로 고침했을 때 키워드가 초기화되는 것을 막기 위해
+     */
+    if (initialRender.current) {
+      initialRender.current = false;
+      return;
+    }
 
     if (!query) {
       router.push('/pagination');

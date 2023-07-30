@@ -32,24 +32,6 @@ export default function PaginationControlsWithPages({
     <section className="py-2">
       <div className="flex flex-row gap-2 items-center">
         <Button
-          size={'sm'}
-          className={cn('hidden', currentPage > 1 && 'inline-flex')}
-          asChild
-        >
-          <Link
-            href={{
-              pathname: '/pagination',
-              query: {
-                ...(query ? { query } : {}),
-                page: 1,
-              },
-            }}
-          >
-            맨 앞
-          </Link>
-        </Button>
-
-        <Button
           disabled={!hasPrevPage}
           variant={'ghost'}
           size={'icon'}
@@ -67,6 +49,24 @@ export default function PaginationControlsWithPages({
             }}
           >
             <ArrowLeft />
+          </Link>
+        </Button>
+
+        <Button
+          size={'sm'}
+          className={cn('hidden', currentPage > 1 && 'inline-flex')}
+          asChild
+        >
+          <Link
+            href={{
+              pathname: '/pagination',
+              query: {
+                ...(query ? { query } : {}),
+                page: 1,
+              },
+            }}
+          >
+            맨 앞
           </Link>
         </Button>
 
@@ -100,30 +100,6 @@ export default function PaginationControlsWithPages({
           );
         })}
 
-        <Button
-          disabled={!hasNextPage}
-          variant={'ghost'}
-          size={'icon'}
-          className={cn(
-            currentPage <
-              Math.ceil((total || TMDB_MAX_PAGE) / (perPage || 20)) &&
-              'inline-flex',
-          )}
-          asChild
-        >
-          <Link
-            href={{
-              pathname: '/pagination',
-              query: {
-                ...(query ? { query } : {}),
-                page: Math.min(Number(currentPage) + SKIP_PAGE, TMDB_MAX_PAGE),
-              },
-            }}
-          >
-            <ArrowRight />
-          </Link>
-        </Button>
-
         {total && perPage && (
           <Button
             size={'sm'}
@@ -146,6 +122,31 @@ export default function PaginationControlsWithPages({
             </Link>
           </Button>
         )}
+
+        <Button
+          aria-label="next page"
+          disabled={!hasNextPage}
+          variant={'ghost'}
+          size={'icon'}
+          className={cn(
+            currentPage <
+              Math.ceil((total || TMDB_MAX_PAGE) / (perPage || 20)) &&
+              'inline-flex',
+          )}
+          asChild
+        >
+          <Link
+            href={{
+              pathname: '/pagination',
+              query: {
+                ...(query ? { query } : {}),
+                page: Math.min(Number(currentPage) + SKIP_PAGE, TMDB_MAX_PAGE),
+              },
+            }}
+          >
+            <ArrowRight />
+          </Link>
+        </Button>
       </div>
     </section>
   );
