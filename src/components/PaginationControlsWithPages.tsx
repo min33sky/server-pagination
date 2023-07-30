@@ -26,14 +26,21 @@ export default function PaginationControlsWithPages({
    */
 
   const TMDB_MAX_PAGE = 500; // ? TMDB API의 최대 페이지 수는 500이다.
-  const SKIP_PAGE = 5; // ? 페이지 버튼을 5개씩 스킵한다.
+  const DISPLAY_PAGES = 5; // ? 보여줄 페이지 수
 
   console.log('total: ', total);
   console.log('perPage: ', perPage);
 
-  const displayPageLength = Math.min(Math.ceil(total! / perPage!), SKIP_PAGE);
+  const displayPageLength = Math.min(
+    Math.ceil(total! / perPage!),
+    DISPLAY_PAGES,
+  );
 
   console.log('displayPageLength: ', displayPageLength);
+
+  const lastPage = Math.ceil(total! / perPage!);
+
+  console.log('라스트 페이지: ', lastPage);
 
   return (
     <section className="py-2">
@@ -45,13 +52,13 @@ export default function PaginationControlsWithPages({
           className={cn('hidden', currentPage > 1 && 'inline-flex')}
           asChild
         >
-          {/* ?page=${Math.max(Number(currentPage) - SKIP_PAGE, 1)} */}
+          {/* ?page=${Math.max(Number(currentPage) - DISPLAY_PAGES, 1)} */}
           <Link
             href={{
               pathname: '/pagination',
               query: {
                 ...(query ? { query } : {}),
-                page: Math.max(Number(currentPage) - SKIP_PAGE, 1),
+                page: Math.max(Number(currentPage) - DISPLAY_PAGES, 1),
               },
             }}
           >
@@ -79,19 +86,30 @@ export default function PaginationControlsWithPages({
           </Link>
         </Button>
 
-        {Array.from({ length: displayPageLength }, (_, i) => {
+        {/* 페이지 링크 리스트 */}
+        {Array.from({ length: DISPLAY_PAGES }, (_, i) => {
           // const targetPage = Number(currentPage) + i;
-          const targetPage = currentPage - (currentPage % SKIP_PAGE) + i + 1;
+          // const targetPage =
+          //   currentPage - (currentPage % DISPLAY_PAGES) + i + 1;
 
-          if (targetPage > displayPageLength) return null;
+          // if (targetPage > lastPage) return null;
+
+          const startPage =
+            currentPage - Math.floor((currentPage - 1) / DISPLAY_PAGES) <=
+            DISPLAY_PAGES
+              ? 1
+              : currentPage - Math.floor((currentPage - 1) / DISPLAY_PAGES);
+
+          console.log('현제 페이지: ', currentPage);
+          console.log('스타트 페이지: ', startPage);
 
           return (
             <Button
               key={i}
-              disabled={targetPage > TMDB_MAX_PAGE}
+              // disabled={targetPage > TMDB_MAX_PAGE}
               variant={'ghost'}
               size={'sm'}
-              className={cn(currentPage === targetPage && 'text-rose-500')}
+              className={cn(currentPage === startPage + i && 'text-rose-500')}
               asChild
             >
               <Link
@@ -99,11 +117,11 @@ export default function PaginationControlsWithPages({
                   pathname: '/pagination',
                   query: {
                     ...(query ? { query } : {}),
-                    page: targetPage,
+                    page: startPage + i,
                   },
                 }}
               >
-                {targetPage}
+                {startPage + i}
               </Link>
             </Button>
           );
@@ -150,7 +168,10 @@ export default function PaginationControlsWithPages({
               pathname: '/pagination',
               query: {
                 ...(query ? { query } : {}),
-                page: Math.min(Number(currentPage) + SKIP_PAGE, TMDB_MAX_PAGE),
+                page: Math.min(
+                  Number(currentPage) + DISPLAY_PAGES,
+                  TMDB_MAX_PAGE,
+                ),
               },
             }}
           >
