@@ -34,6 +34,7 @@ export default async function PaginationPage({
       <PaginationControlsWithPages
         total={trendingMovies.total_results}
         perPage={Number(perPage)}
+        currentPage={Number(page)}
         hasNextPage={end < trendingMovies.total_results}
         hasPrevPage={start > 0}
       />
