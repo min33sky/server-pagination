@@ -29,6 +29,8 @@ export default async function PaginationPage({
       ? undefined
       : String(searchParams['query']);
 
+  console.log('검 색 키 워 드 : ', keyword);
+
   // mocked, skipped and limited in the real app
   const start = (Number(page) - 1) * Number(perPage); // 0, 20, 40, 60, ...
   const end = start + Number(perPage); // 20, 40, 60, 80, ...
@@ -64,8 +66,6 @@ export default async function PaginationPage({
           perPage={Number(perPage)}
           currentPage={Number(page)}
           query={keyword}
-          hasNextPage={end < movieList.total_results}
-          hasPrevPage={start > 0}
         />
       </div>
     </>

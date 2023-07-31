@@ -9,8 +9,8 @@ interface PaginationControlsWithPagesProps {
   perPage?: number; // ? 한 페이지에 보여줄 아이템 수
   query?: string; // ? 검색어
   currentPage: number; // ? 현재 페이지
-  hasNextPage: boolean; // ? 다음 페이지가 있는지
-  hasPrevPage: boolean; // ? 이전 페이지가 있는지
+  hasNextPage?: boolean; // ? 다음 페이지가 있는지
+  hasPrevPage?: boolean; // ? 이전 페이지가 있는지
 }
 
 export default function PaginationControlsWithPages({
@@ -18,8 +18,6 @@ export default function PaginationControlsWithPages({
   perPage,
   query,
   currentPage,
-  hasNextPage,
-  hasPrevPage,
 }: PaginationControlsWithPagesProps) {
   /**
    * TODO: 페이지 뒷부분 아직 버그 있음
@@ -46,7 +44,6 @@ export default function PaginationControlsWithPages({
     <section className="py-2">
       <div className="flex flex-row gap-2 items-center">
         <Button
-          disabled={!hasPrevPage}
           variant={'ghost'}
           size={'sm'}
           className={cn('hidden', currentPage > 1 && 'inline-flex')}
@@ -160,14 +157,9 @@ export default function PaginationControlsWithPages({
 
         <Button
           aria-label="next page"
-          disabled={!hasNextPage}
           variant={'ghost'}
           size={'sm'}
-          className={cn(
-            currentPage <
-              Math.ceil((total || TMDB_MAX_PAGE) / (perPage || 20)) &&
-              'inline-flex',
-          )}
+          className={cn('inline-flex', currentPage === lastPage && 'hidden')}
           asChild
         >
           <Link

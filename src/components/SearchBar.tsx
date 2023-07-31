@@ -18,6 +18,8 @@ export default function SearchBar({ keyword }: SearchBarProps) {
   const [text, setText] = useState(keyword);
   const [query] = useDebounce(text, 750);
 
+  console.log('query: ', query);
+
   useEffect(() => {
     /**
      * 1. 검색어와 페이지가 포함된 링크로 들어왔을 때 초기화되는 것을 막기 위해
