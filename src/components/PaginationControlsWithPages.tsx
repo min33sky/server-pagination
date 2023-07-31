@@ -19,10 +19,6 @@ export default function PaginationControlsWithPages({
   query,
   currentPage,
 }: PaginationControlsWithPagesProps) {
-  /**
-   * TODO: 페이지 뒷부분 아직 버그 있음
-   */
-
   const TMDB_MAX_PAGE = 500; // ? TMDB API의 최대 페이지 수는 500이다.
   const DISPLAY_PAGES = 5; // ? 보여줄 페이지 수
 
@@ -34,11 +30,7 @@ export default function PaginationControlsWithPages({
     DISPLAY_PAGES,
   );
 
-  console.log('displayPageLength: ', displayPageLength);
-
   const lastPage = Math.ceil(total! / perPage!);
-
-  console.log('라스트 페이지: ', lastPage);
 
   return (
     <section className="py-2">
@@ -49,7 +41,6 @@ export default function PaginationControlsWithPages({
           className={cn('hidden', currentPage > 1 && 'inline-flex')}
           asChild
         >
-          {/* ?page=${Math.max(Number(currentPage) - DISPLAY_PAGES, 1)} */}
           <Link
             href={{
               pathname: '/pagination',
@@ -85,25 +76,20 @@ export default function PaginationControlsWithPages({
 
         {/* 페이지 링크 리스트 */}
         {Array.from({ length: DISPLAY_PAGES }, (_, i) => {
-          // const targetPage = Number(currentPage) + i;
-          // const targetPage =
-          //   currentPage - (currentPage % DISPLAY_PAGES) + i + 1;
-
-          // if (targetPage > lastPage) return null;
-
-          // const startPage =
-          //   currentPage - Math.floor((currentPage - 1) / DISPLAY_PAGES) <
-          //   DISPLAY_PAGES
-          //     ? 1
-          //     : currentPage - Math.floor((currentPage - 1) / DISPLAY_PAGES);
-
+          /**
+           * 1. 페이지가 5개 이하일 때 시작 페이지는 1이다.
+           * 2. 페이지가 5개 이상일 때 시작 페이지는 현재 페이지 - 2이다.
+           * 3. 시작 페이지가 1보다 작을 때는 1이다.
+           */
           const startPage =
-            currentPage - Math.floor(displayPageLength / 2) < 1
+            lastPage <= displayPageLength
+              ? 1
+              : currentPage - Math.floor(displayPageLength / 2) < 1
               ? 1
               : currentPage - Math.floor(displayPageLength / 2);
 
-          console.log('현제 페이지: ', currentPage);
-          console.log('스타트 페이지: ', startPage);
+          // console.log('현제 페이지: ', currentPage);
+          // console.log('스타트 페이지: ', startPage);
 
           if (startPage + i > lastPage) return null;
 

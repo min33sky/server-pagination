@@ -17,13 +17,8 @@ export default function SearchBar({ keyword }: SearchBarProps) {
   const initialRender = useRef(true);
 
   const [text, setText] = useState(keyword || '');
-  // const textRef = useRef<HTMLInputElement | null>(null);
 
   const query = useDebounce(text, 1000);
-
-  // console.log('하하: ', textRef.current?.value);
-
-  console.log('query: ', query);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 

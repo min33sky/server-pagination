@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 const useDebounce = (value: string, time: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
-  console.log('debouncedValue', debouncedValue);
-
   useEffect(() => {
     const timerId = setTimeout(() => {
       // 일정 시간 이후에 변경한다
