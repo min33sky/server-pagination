@@ -55,24 +55,30 @@ export default function PaginationControlsWithPages({
           </Link>
         </Button>
 
-        <Button
-          size={'sm'}
-          variant={'ghost'}
-          className={cn('hidden', currentPage > 1 && 'inline-flex')}
-          asChild
-        >
-          <Link
-            href={{
-              pathname: '/pagination',
-              query: {
-                ...(query ? { query } : {}),
-                page: 1,
-              },
-            }}
-          >
-            맨 앞
-          </Link>
-        </Button>
+        {currentPage >= DISPLAY_PAGES && (
+          <>
+            <Button
+              size={'sm'}
+              variant={'ghost'}
+              // className={cn('hidden', currentPage > 1 && 'inline-flex')}
+              asChild
+            >
+              <Link
+                href={{
+                  pathname: '/pagination',
+                  query: {
+                    ...(query ? { query } : {}),
+                    page: 1,
+                  },
+                }}
+              >
+                1
+              </Link>
+            </Button>
+
+            <div>...</div>
+          </>
+        )}
 
         {/* 페이지 링크 리스트 */}
         {Array.from({ length: DISPLAY_PAGES }, (_, i) => {
@@ -88,18 +94,17 @@ export default function PaginationControlsWithPages({
               ? 1
               : currentPage - Math.floor(displayPageLength / 2);
 
-          // console.log('현제 페이지: ', currentPage);
-          // console.log('스타트 페이지: ', startPage);
-
           if (startPage + i > lastPage) return null;
 
           return (
             <Button
               key={i}
-              // disabled={targetPage > TMDB_MAX_PAGE}
               variant={'ghost'}
               size={'sm'}
-              className={cn(currentPage === startPage + i && 'text-rose-500')}
+              className={cn(
+                currentPage === startPage + i &&
+                  'text-rose-500 cursor-default hover:bg-transparent hover:text-rose-500',
+              )}
               asChild
             >
               <Link
@@ -118,27 +123,30 @@ export default function PaginationControlsWithPages({
         })}
 
         {total && perPage && (
-          <Button
-            size={'sm'}
-            variant={'ghost'}
-            className={cn(
-              'hidden',
-              currentPage < Math.ceil(total / perPage) && 'inline-flex',
-            )}
-            asChild
-          >
-            <Link
-              href={{
-                pathname: '/pagination',
-                query: {
-                  ...(query ? { query } : {}),
-                  page: Math.min(Math.ceil(total / perPage), TMDB_MAX_PAGE),
-                },
-              }}
+          <>
+            <div>...</div>
+            <Button
+              size={'sm'}
+              variant={'ghost'}
+              className={cn(
+                'hidden',
+                currentPage < Math.ceil(total / perPage) && 'inline-flex',
+              )}
+              asChild
             >
-              맨 뒤
-            </Link>
-          </Button>
+              <Link
+                href={{
+                  pathname: '/pagination',
+                  query: {
+                    ...(query ? { query } : {}),
+                    page: Math.min(Math.ceil(total / perPage), TMDB_MAX_PAGE),
+                  },
+                }}
+              >
+                {lastPage}
+              </Link>
+            </Button>
+          </>
         )}
 
         <Button
