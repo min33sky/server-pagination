@@ -4,6 +4,12 @@
 
 Next13 Server Pagination
 
+## Environment Variables
+
+```bash
+  TMDB_READ_ACCESS_TOKEN=
+```
+
 ## Note
 
 1. useDebounce를 사용할 때 한글의 경우 포커스 이동에 따라 마지막 글자가 지워지는 경우가 있음

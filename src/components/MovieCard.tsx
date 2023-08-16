@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Card,
   CardContent,
@@ -7,8 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card';
-import Image from 'next/image';
 import { Movie } from '@/types/movie';
+import MovieImage from '@/MovieImage';
 
 interface MovieCardProps {
   movie: Movie;
@@ -24,13 +23,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Image
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          width={500}
-          height={500}
-          alt="movie poster"
-          className="group-hover:scale-105 transition rounded-lg object-cover"
-        />
+        <MovieImage imageUrl={movie.poster_path} />
       </CardContent>
       <CardFooter className="flex flex-col">
         <p className="line-clamp-1">{movie.original_title}</p>
