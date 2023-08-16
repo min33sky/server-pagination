@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-export function ModeToggle() {
+export function ThemeToggle() {
   const { setTheme } = useTheme();
   const [isMounted, setIsMounted] = React.useState(false);
 
@@ -33,13 +33,13 @@ export function ModeToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme('light')}>
-          Light
+          라이트
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('dark')}>
-          Dark
+          다크
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme('system')}>
-          System
+          시스템
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
