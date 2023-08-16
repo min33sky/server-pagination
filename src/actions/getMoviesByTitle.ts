@@ -17,7 +17,7 @@ export default async function getMoviesByTitle(
   query: string,
   page: number = 1,
 ) {
-  console.log('#### URL: ', `${url}&query=${query}&page=${page}`);
+  // console.log('#### URL: ', `${url}&query=${query}&page=${page}`);
 
   return fetch(`${url}&query=${query}&page=${page}`, options)
     .then((res) => res.json())

@@ -29,7 +29,7 @@ export default async function PaginationPage({
       ? undefined
       : String(searchParams['query']);
 
-  console.log('검 색 키 워 드 : ', keyword);
+  // console.log('검 색 키 워 드 : ', keyword);
 
   // mocked, skipped and limited in the real app
   const start = (Number(page) - 1) * Number(perPage); // 0, 20, 40, 60, ...

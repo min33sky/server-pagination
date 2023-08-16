@@ -13,7 +13,7 @@ const options = {
  * 이 주의 트렌딩 영화 목록을 가져옵니다.
  */
 export default async function getTrendingMovies(page: number = 1) {
-  console.log('#### URL: ', `${url}&page=${page}`);
+  // console.log('#### URL: ', `${url}&page=${page}`);
 
   return fetch(`${url}&page=${page}`, options)
     .then((res) => res.json())

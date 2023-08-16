@@ -22,8 +22,8 @@ export default function PaginationControlsWithPages({
   const TMDB_MAX_PAGE = 500; // ? TMDB API의 최대 페이지 수는 500이다.
   const DISPLAY_PAGES = 5; // ? 보여줄 페이지 수
 
-  console.log('total: ', total);
-  console.log('perPage: ', perPage);
+  // console.log('total: ', total);
+  // console.log('perPage: ', perPage);
 
   const displayPageLength = Math.min(
     Math.ceil(total! / perPage!),
